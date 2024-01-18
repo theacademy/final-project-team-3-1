@@ -37,6 +37,7 @@ CREATE TABLE products(
     id int NOT NULL AUTO_INCREMENT,
     name varchar(255) NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
+    image_url varchar(255) NOT NULL,
     seller_id int NOT NULL,
     PRIMARY KEY (id),
     KEY seller_id (seller_id),
@@ -57,3 +58,4 @@ CREATE TABLE cart_products(
     FOREIGN KEY (cart_id) REFERENCES products (id),
     PRIMARY KEY (id)
 );
+
