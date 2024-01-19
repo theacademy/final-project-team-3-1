@@ -38,7 +38,7 @@ function Home() {
             {products.map((product, index) => (
                 <a key={product.id} className="product" href={"/product-detail/" + product.id}>
                     <div>
-                        <img src={product.image_url} alt=""/>
+                        <img src={product.imageUrl} alt=""/>
                         <p>{product.name}</p>
                     </div>
                 </a>
