@@ -23,7 +23,6 @@ const AddEditProduct = () => {
 
   return (
     <div>
-    <Navbar />
     <div className="add-edit-product-container">
       <h1>Add/Edit Product</h1>
       <form onSubmit={handleSubmit}>

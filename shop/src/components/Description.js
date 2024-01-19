@@ -20,7 +20,6 @@ const Description = () => {
 
   return (
     <div>
-      <Navbar /> 
       <Product {...product} addToCart={addToCart} />
     </div>
   );
