@@ -1,46 +1,44 @@
 import './Home.css';
+import {useEffect, useState} from "react";
 
 function Home() {
+    const [products, setProducts] = useState([]);
 
-    const productData = [
-        {
-            id: 1,
-            name: "Untitled",
-            price: 600,
-            img_url: "https://cdn.dribbble.com/userupload/10564178/file/original-1344b65403b6787b07998a9fe93cc577.jpg?resize=512x384"
-        },
-        {
-            id: 2,
-            name: "Sanborn Avenue",
-            price: 1100,
-            img_url: "https://cdn.dribbble.com/users/648290/screenshots/6161272/media/385e000b8732228c7844a119de9ae3a6.jpg?resize=512x354"
-        },
-        {
-            id: 3,
-            name: "South Africa",
-            price: 2250,
-            img_url: "https://cdn.dribbble.com/users/59947/screenshots/3479596/dribbb.jpg?resize=512x284"
-        },
-        {
-            id: 4,
-            name: "Ash Cave",
-            price: 600,
-            img_url: "https://cdn.dribbble.com/userupload/3266648/file/original-b12e684944557e005eb351e3ba59e06e.jpg?resize=752x"
-        },
-        {
-            id: 5,
-            name: "Nebula",
-            price: 300,
-            img_url: "https://cdn.dribbble.com/users/69311/screenshots/4927396/crab-nebula.jpg?resize=800x600"
-        }
-    ];
+    useEffect(() => {
+        fetchAllProducts();
+    }, []);
+
+    const fetchAllProducts = () => {
+        const token = localStorage.getItem('shop_access_token');
+
+        fetch(`http://localhost:8080/products/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error(`Error fetching data: ${response.status} ${response.statusText}`);
+                }
+            })
+            .then(data => {
+                setProducts(data);
+            })
+            .catch(error => {
+                console.error('Error occurred while fetching products:', error);
+            });
+    };
 
     function getProductGrid() {
         return (<div className="product-grid">
-            {productData.map((product, index) => (
+            {products.map((product, index) => (
                 <a key={product.id} className="product" href={"/product-detail/" + product.id}>
                     <div>
-                        <img src={product.img_url} alt=""/>
+                        <img src={product.image_url} alt=""/>
                         <p>{product.name}</p>
                     </div>
                 </a>

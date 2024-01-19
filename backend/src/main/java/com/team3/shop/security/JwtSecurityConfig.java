@@ -1,5 +1,6 @@
 package com.team3.shop.security;
 
+import com.team3.shop.Config;
 import com.team3.shop.ShopApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -31,15 +32,13 @@ public class JwtSecurityConfig {
         http
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/authenticate", "/users/sign-up").permitAll()
-                        .anyRequest().hasAuthority(USER))
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-
-        // Assuming you have a CorsConfigurationSource bean defined elsewhere
-        http.cors(cors -> cors.configurationSource(ShopApplication.corsConfigurationSource()));
-
-        // Apply CSRF configuration if you are not disabling it, or remove this line if you are
-        http.csrf(csrf -> csrf.disable());
+                        .requestMatchers(
+                                "/dashboard/"
+                        ).hasAuthority(USER)
+                        .anyRequest().permitAll())
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                .cors(cors -> cors.configurationSource(Config.corsConfigurationSource()))
+                .csrf(csrf -> csrf.disable());
 
         return http.build();
     }

@@ -8,7 +8,7 @@ const NavBar = () => {
       <div className="navbar-container">
       
         <ul className="nav-links">
-          <li><a href="/home" className="nav-link-home">Home</a></li>
+          <li><a href="/" className="nav-link-home">Home</a></li>
           <li><a href="/dashboard" className="nav-link-dashboard">Dashboard</a></li>
           <div className="search-container">
           <input type="text" placeholder="Search..." className="search-input" />

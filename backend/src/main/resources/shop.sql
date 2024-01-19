@@ -59,3 +59,14 @@ CREATE TABLE cart_products(
     PRIMARY KEY (id)
 );
 
+-- data
+
+INSERT INTO sellers (id) VALUES
+    (1);
+
+INSERT INTO products (id, name, price, image_url, seller_id) VALUES
+    (1, 'Untitled', 600.00, 'https://cdn.dribbble.com/userupload/10564178/file/original-1344b65403b6787b07998a9fe93cc577.jpg?resize=512x384', 1),
+    (2, 'Sanborn Avenue', 1100.00, 'https://cdn.dribbble.com/users/648290/screenshots/6161272/media/385e000b8732228c7844a119de9ae3a6.jpg?resize=512x354', 1),
+    (3, 'South Africa', 2250.00, 'https://cdn.dribbble.com/users/59947/screenshots/3479596/dribbb.jpg?resize=512x284', 1),
+    (4, 'Ash Cave', 600.00, 'https://cdn.dribbble.com/userupload/3266648/file/original-b12e684944557e005eb351e3ba59e06e.jpg?resize=752x', 1),
+    (5, 'Nebula', 300.00, 'https://cdn.dribbble.com/users/69311/screenshots/4927396/crab-nebula.jpg?resize=800x600', 1);

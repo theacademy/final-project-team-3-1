@@ -19,17 +19,4 @@ public class ShopApplication {
 		SpringApplication.run(ShopApplication.class, args);
 	}
 
-    @Bean
-    public static CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-        configuration.setAllowedMethods(List.of("POST", "HEAD", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/users/sign-up", configuration);
-
-        return source;
-    }
 }
