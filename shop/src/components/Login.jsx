@@ -14,9 +14,9 @@ function Login() {
             <h1>Login</h1>
             <form className="login-form">
                 <label htmlFor="email">Email</label>
-                <input name="email" type="email" onChange={(e) => setEmail(e.target.value)}/>
+                <input name="email" type="email" autoComplete="email" onChange={(e) => setEmail(e.target.value)}/>
                 <label htmlFor="password">Password</label>
-                <input name="password" type="password" onChange={(e) => setPassword(e.target.value)}/>
+                <input name="password" type="password" autoComplete="current-password" onChange={(e) => setPassword(e.target.value)}/>
                 <button type="button" onClick={(e) => handleSubmitClick()}>Submit</button>
             </form>
         </div>

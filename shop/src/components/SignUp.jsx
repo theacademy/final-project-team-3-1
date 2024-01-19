@@ -7,10 +7,32 @@ function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
-    const [seller, setSeller] = useState("")
+    const [isSeller, setIsSeller] = useState("")
 
-    function handleSubmitClick() {
-
+    function handleSubmitClick(event) {
+        event.preventDefault();
+        const url  = "http://127.0.0.1:8080/users/sign-up"
+        fetch(url, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                firstName,
+                lastName,
+                email,
+                password,
+                isSeller
+            })
+        })
+            .then((response) => response.json())
+            .then(data => {
+                // TODO: Enable redirect routing
+                // this.setState({ ...this.state, bearer: data['access_token'] })
+                localStorage.setItem("access_token", data['access_token']);
+                // window.location.replace(`${window.location.origin}/`);
+            })
     }
 
     return (
@@ -18,20 +40,20 @@ function SignUp() {
             <h1>Sign Up</h1>
             <form className="sign-up-form">
                 <label htmlFor="firstName">First Name</label>
-                <input name="firstName" type="text" onChange={(e) => setFirstName(e.target.value)}/>
+                <input id="firstName" name="firstName" type="text" onChange={(e) => setFirstName(e.target.value)}/>
                 <label htmlFor="lastName">Last Name</label>
-                <input name="lastName" type="text" onChange={(e) => setLastName(e.target.value)}/>
+                <input id="lastName" name="lastName" type="text" onChange={(e) => setLastName(e.target.value)}/>
                 <label htmlFor="email">Email</label>
-                <input name="email" type="email" onChange={(e) => setEmail(e.target.value)}/>
+                <input id="email" name="email" type="email" onChange={(e) => setEmail(e.target.value)}/>
                 <label htmlFor="password">Password</label>
-                <input name="password" type="password" onChange={(e) => setPassword(e.target.value)}/>
+                <input id="password" name="password" type="password" onChange={(e) => setPassword(e.target.value)}/>
                 <label htmlFor="confirmPassword">Confirm Password</label>
-                <input name="confirmPassword" type="password" onChange={(e) => setConfirmPassword(e.target.value)}/>
-                <label htmlFor="seller">
+                <input id="confirmPassword" name="confirmPassword" type="password" onChange={(e) => setConfirmPassword(e.target.value)}/>
+                <label htmlFor="isSeller">
                     Seller
-                    <input type="checkbox" name="seller" onChange={(e) => setSeller(e.target.value)}/>
+                    <input id="isSeller" type="checkbox" name="isSeller" onChange={(e) => setIsSeller(e.target.value)}/>
                 </label>
-            <button type="button" onClick={(e) => handleSubmitClick()}>Submit</button>
+            <button type="button" onClick={(e) => handleSubmitClick(e)}>Submit</button>
         </form>
         </div>
     );

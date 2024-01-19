@@ -22,23 +22,22 @@ export default function App(){
  
   return(
    <>   
-<NavBar/>
-
-<Router>
-<Routes>
-<Route exact path= "/" element={<Home />} />
-<Route exact path= "/results" element={<Result />} />
-<Route exact path= "/cart" element={<Cart cart={cart} setCart={setCart}/>} />
-<Route exact path= "/confirmation" element={<Confirmation/>} />
-<Route exact path= "/Login" element={<Login/>} />
-<Route exact path= "/SignUp" element={<SignUp/>} />
-<Route exact path= "/Product" element={<Product setCart={setCart} prev={cart}/>} />
-<Route exact path= "/Description" element={<Description/>} />
-<Route exact path= "/BuyerInformation" element={<BuyerInformation/>} />
-<Route exact path= "/AddEditProduct" element={<AddEditProduct/>} />
-<Route exact path= "/Dashboard" element={<Dashboard/>} />
-</Routes>
-</Router>
-</>
+    <NavBar/>
+    <Router>
+      <Routes>
+        <Route exact path= "/" element={<Home />} />
+        <Route exact path= "/results" element={<Result />} />
+        <Route exact path= "/cart" element={<Cart cart={cart} setCart={setCart}/>} />
+        <Route exact path= "/confirmation" element={<Confirmation/>} />
+        <Route exact path= "/Login" element={<Login/>} />
+        <Route exact path= "/sign-up" element={<SignUp/>} />
+        <Route exact path= "/product" element={<Product setCart={setCart} prev={cart}/>} />
+        <Route exact path= "/description" element={<Description/>} />
+        <Route exact path= "/buyer-information" element={<BuyerInformation/>} />
+        <Route exact path= "/add-edit-product" element={<AddEditProduct/>} />
+        <Route exact path= "/dashboard" element={<Dashboard/>} />
+      </Routes>
+    </Router>
+    </>
   )
 }
