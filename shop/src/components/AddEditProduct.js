@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
-import './AddEditProduct.css'; 
-import Navbar from './NavBar';
+import React, {useEffect, useState} from 'react';
+import './AddEditProduct.css';
+import { useParams } from "react-router-dom";
+
 const AddEditProduct = () => {
+  const { id } = useParams();
+
   const [product, setProduct] = useState({
     name: '',
     price: '',
     description: '',
     image: null,
+    imageUrl: ''
   });
 
   const handleChange = (e) => {
@@ -16,15 +20,94 @@ const AddEditProduct = () => {
       [name]: type === 'file' ? e.target.files[0] : value,
     }));
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Product submitted:', product);
+
+  const createProduct = async () => {
+    const token = localStorage.getItem('shop_access_token');
+
+    try {
+      const response = await fetch('http://localhost:8080/products/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          name: product.name,
+          price: product.price,
+          imageUrl: product.imageUrl,
+          description: product.description
+        }),
+      });
+
+      if (!response.ok) throw new Error('Error creating product');
+
+      const newProduct = await response.json();
+      setProduct(newProduct);
+      alert('Product created successfully!');
+    } catch (error) {
+      console.error('Error creating product:', error);
+      alert('Error creating product');
+    }
   };
+
+  const updateProduct = async () => {
+    const token = localStorage.getItem('shop_access_token');
+
+    try {
+      const response = await fetch(`http://localhost:8080/products/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          name: product.name,
+          price: product.price,
+          imageUrl: product.imageUrl,
+          description: product.description
+        }),
+      });
+
+      if (!response.ok) throw new Error('Error updating product');
+
+      const updatedProduct = await response.json();
+      setProduct(updatedProduct);
+      alert('Product updated successfully!');
+    } catch (error) {
+      console.error('Error updating product:', error);
+      alert('Error updating product');
+    }
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (id) {
+      await updateProduct();
+    } else {
+      await createProduct();
+    }
+  };
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/products/${id}`);
+        if (!response.ok) throw new Error('Product not found');
+        const data = await response.json();
+        setProduct(data);
+      } catch (error) {
+        console.error('Error fetching product:', error);
+      }
+    };
+
+    if (id) fetchProduct();
+  }, [id]); // Dependency array ensures this effect runs when `id` changes
 
   return (
     <div>
     <div className="add-edit-product-container">
-      <h1>Add/Edit Product</h1>
+      <h1>{id ? "Edit Product" : "Add Product"}</h1>
       <form onSubmit={handleSubmit}>
         <label>
           <span>Image:</span>

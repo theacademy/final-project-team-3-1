@@ -29,6 +29,7 @@ public class Config {
         source.registerCorsConfiguration("/users/sign-up", configuration);
         source.registerCorsConfiguration("/authenticate", configuration);
         source.registerCorsConfiguration("/products/", configuration);
+        source.registerCorsConfiguration("/products/{id}", configuration);
         return source;
     }
 }

@@ -11,6 +11,7 @@ public class ProductDto {
     private String name;
     private BigDecimal price;
     private String imageUrl;
+    private String description;
     private Seller seller;
     public ProductDto() {}
 
@@ -19,7 +20,7 @@ public class ProductDto {
         this.name = product.getName();
         this.price = product.getPrice();
         this.imageUrl = product.getImageUrl();
-//        this.seller = new Seller(product.getSeller());
+        this.description = product.getDescription();
         this.seller = product.getSeller();
     }
     public Long getId() {
@@ -46,6 +47,15 @@ public class ProductDto {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Seller getSeller() {
         return seller;
     }

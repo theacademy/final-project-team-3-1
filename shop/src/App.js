@@ -55,7 +55,8 @@ export default function App() {
         <Route exact path= "/product" element={<Product setCart={setCart} prev={cart}/>} />
         <Route exact path= "/description" element={<Description/>} />
         <Route exact path= "/buyer-information" element={<BuyerInformation/>} />
-        <Route exact path= "/add-edit-product" element={<AddEditProduct/>} />
+        <Route exact path= "/add-edit-product/:id" element={<AddEditProduct/>} />
+        <Route exact path= "/add-edit-product/" element={<AddEditProduct/>} />
         <Route exact path= "/dashboard" element={<Dashboard/>} />
       </Routes>
       </Router>

@@ -23,9 +23,9 @@ public class User {
     @Column(name="password")
     private String password;
 
-//    @ManyToOne
-//    @JoinColumn(name = "seller_id")
-//    private Seller seller;
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
+    private Seller seller;
 
     public User() {}
 
@@ -75,6 +75,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Seller getSeller() {
+        return seller;
+    }
+
+    public void setSeller(Seller seller) {
+        this.seller = seller;
     }
 
     @Override

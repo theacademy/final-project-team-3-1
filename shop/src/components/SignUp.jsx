@@ -30,7 +30,7 @@ function SignUp() {
             .then(data => {
                 // TODO: Enable redirect routing
                 // this.setState({ ...this.state, bearer: data['access_token'] })
-                localStorage.setItem("access_token", data['access_token']);
+                localStorage.setItem("shop_access_token", data['access_token']);
                 // window.location.replace(`${window.location.origin}/`);
             })
     }
