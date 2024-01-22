@@ -36,7 +36,7 @@ function Home() {
     function getProductGrid() {
         return (<div className="product-grid">
             {products.map((product, index) => (
-                <a key={product.id} className="product" href={"/product-detail/" + product.id}>
+                <a key={product.id} className="product" href={"/product/" + product.id}>
                     <div>
                         <img src={product.imageUrl} alt=""/>
                         <p>{product.name}</p>

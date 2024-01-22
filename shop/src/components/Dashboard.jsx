@@ -1,11 +1,13 @@
 import './Dashboard.css'
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { SalesOverTimeData } from "../data/SalesOverTimeData";
 import { ProductPerformanceData } from "../data/ProductPerformanceData";
 import {Bar, Line} from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
 
 function Dashboard() {
+    const [products, setProducts] = useState([]);
+
     const formatDate = (isoString) => {
         const date = new Date(isoString);
         const month = String(date.getMonth() + 1); // getMonth() returns 0-11
@@ -65,38 +67,35 @@ function Dashboard() {
         }
     };
 
-    const productData = [
-        {
-            id: 1,
-            name: "Untitled",
-            price: 600,
-            img_url: "https://cdn.dribbble.com/userupload/10564178/file/original-1344b65403b6787b07998a9fe93cc577.jpg?resize=512x384"
-        },
-        {
-            id: 2,
-            name: "Sanborn Avenue",
-            price: 1100,
-            img_url: "https://cdn.dribbble.com/users/648290/screenshots/6161272/media/385e000b8732228c7844a119de9ae3a6.jpg?resize=512x354"
-        },
-        {
-            id: 3,
-            name: "South Africa",
-            price: 2250,
-            img_url: "https://cdn.dribbble.com/users/59947/screenshots/3479596/dribbb.jpg?resize=512x284"
-        },
-        {
-            id: 4,
-            name: "Ash Cave",
-            price: 600,
-            img_url: "https://cdn.dribbble.com/userupload/3266648/file/original-b12e684944557e005eb351e3ba59e06e.jpg?resize=752x"
-        },
-        {
-            id: 5,
-            name: "Nebula",
-            price: 300,
-            img_url: "https://cdn.dribbble.com/users/69311/screenshots/4927396/crab-nebula.jpg?resize=800x600"
-        }
-    ];
+
+    useEffect(() => {
+        fetchAllProducts();
+    }, []);
+
+    const fetchAllProducts = () => {
+        const token = localStorage.getItem('shop_access_token');
+
+        fetch(`http://localhost:8080/products/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error(`Error fetching data: ${response.status} ${response.statusText}`);
+                }
+            })
+            .then(data => {
+                setProducts(data);
+            })
+            .catch(error => {
+                console.error('Error occurred while fetching products:', error);
+            });
+    };
 
     function getProductTable() {
         return (
@@ -111,19 +110,19 @@ function Dashboard() {
                 </tr>
                 </thead>
                 <tbody>
-                {productData.map((product, index) => (
+                {products.map((product, index) => (
                     <tr key={product.id}>
                         <td>
-                            <img src={product.img_url} alt={product.name} style={{ width: '50px', height: 'auto' }}/>
+                            <img src={product.imageUrl} alt={product.name} style={{ width: '50px', height: 'auto' }}/>
                         </td>
                         <td>
-                            <a href={"/product-detail/" + product.id}>{product.name}</a>
+                            <a href={"/product/" + product.id}>{product.name}</a>
                         </td>
                         <td>
                             {product.price}
                         </td>
                         <td>
-                            <button>Edit</button>
+                            <a href={"/add-edit-product/" + product.id}>Edit</a>
                         </td>
                         <td>
                             <button>Delete</button>
@@ -149,7 +148,7 @@ function Dashboard() {
             <div className="table-container">
                 <div className="table-title">
                     <h2>All Products</h2>
-                    <button className="add-product-button">Add Product</button>
+                    <a className="add-product-button" href={"/add-edit-product/"}>Add Product</a>
                 </div>
                 {getProductTable()}
             </div>

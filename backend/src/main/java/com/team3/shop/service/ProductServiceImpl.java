@@ -31,26 +31,25 @@ public class ProductServiceImpl  {
     }
 
     @Transactional
-    public void createProduct(ProductDto productDTO) {
+    public Product createProduct(ProductDto productDTO) {
         Product product = new Product(productDTO);
-        productRepository.saveAndFlush(product);
+        return productRepository.saveAndFlush(product);
     }
 
     @Transactional
     public void updateProduct(Long id, ProductDto productDTO) {
         // Check if the product with the given ID exists
-        if (productRepository.existsById(id)) {
-            Product existingProduct = productRepository.getOne(id);
+        Product existingProduct = productRepository.findById(id).orElseThrow();
 
-            // Update fields based on productDTO
-            existingProduct.setName(productDTO.getName());
-            existingProduct.setPrice(productDTO.getPrice());
-            existingProduct.setImageUrl(productDTO.getImageUrl());
-            existingProduct.setSeller(productDTO.getSeller());
+        // Update fields based on productDTO
+        existingProduct.setName(productDTO.getName());
+        existingProduct.setPrice(productDTO.getPrice());
+        existingProduct.setImageUrl(productDTO.getImageUrl());
+        existingProduct.setDescription(productDTO.getDescription());
 
-            // Save the updated product
-            productRepository.saveAndFlush(existingProduct);
-        }
+        // Save the updated product
+        productRepository.saveAndFlush(existingProduct);
+
         // Handle the case where the product doesn't exist (throw an exception or handle as needed)
     }
 

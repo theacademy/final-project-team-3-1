@@ -21,7 +21,10 @@ import java.math.BigDecimal;
     
         @Column(name = "image_url")
         private String imageUrl;
-    
+
+        @Column(name = "description")
+        private String description;
+
         @ManyToOne
         @JoinColumn(name = "seller_id")
         private Seller seller;
@@ -58,7 +61,16 @@ import java.math.BigDecimal;
         public String getImageUrl() {
             return imageUrl;
         }
-        public void setImageUrl(String imageUrl) {
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setImageUrl(String imageUrl) {
             this.imageUrl = imageUrl;
         }
         public Seller getSeller() {
