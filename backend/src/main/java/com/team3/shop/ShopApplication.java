@@ -14,7 +14,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import java.util.List;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.team3.shop.repository")
 public class ShopApplication {
 
 	public static void main(String[] args) {
