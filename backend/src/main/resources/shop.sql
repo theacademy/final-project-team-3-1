@@ -47,7 +47,10 @@ CREATE TABLE products(
 CREATE TABLE carts(
     id int NOT NULL AUTO_INCREMENT,
     status varchar(25),
-    PRIMARY KEY (id)
+    user_id int NOT NULL,
+    PRIMARY KEY (id),
+    KEY user_id (user_id),
+    FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
 CREATE TABLE cart_products(
