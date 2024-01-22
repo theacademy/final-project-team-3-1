@@ -17,7 +17,7 @@ const Description = () => {
   // Description.js
   const addToCart = () => {
     // Create a CartDto object to send to the backend
-    const cartItem = {
+    const productItem = {
       id: product.id,
       name: product.name,
       price: product.price,
@@ -30,7 +30,7 @@ const Description = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(cartItem),
+      body: JSON.stringify(productItem),
     })
       .then(response => response.json())
       .then(data => {

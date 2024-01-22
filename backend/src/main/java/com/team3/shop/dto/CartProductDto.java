@@ -5,14 +5,6 @@ public class CartProductDto  {
     private Long cartId;
     private Long productId;
 
-
-
-public CartProductDto(Long id, long cartId, long productId) {
-    this.id = id;
-    this.cartId = cartId;
-    this.productId = productId;
-}
-
     public Long getCartId() {
         return cartId;
     }
