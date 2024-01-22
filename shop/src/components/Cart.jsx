@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "./Cart.css";
 
 const Cart = () => {
+  const navigate = useNavigate(); // Use useNavigate instead of useHistory
   const [cartItems, setCartItems] = useState([
     {
       id: 1,
@@ -30,6 +32,16 @@ const Cart = () => {
     return cartItems.reduce((total, item) => total + item.price, 0);
   };
 
+  const handleCheckout = () => {
+    // Pass the list of products and cart ID to BuyerInformation
+    navigate("/buyer-information", {
+      state: {
+        products: cartItems,
+        cartId: 123, // Replace with your actual cart ID
+      },
+    });
+  };
+
   return (
     <div className="cart-container">
       <h2>Cart</h2>
@@ -48,10 +60,7 @@ const Cart = () => {
       <div className="cart-total">
         <p>Total Price: ${calculateTotalPrice()}</p>
       </div>
-      <button
-        className="checkout-btn"
-        onClick={() => console.log("Checkout clicked")}
-      >
+      <button className="checkout-btn" onClick={handleCheckout}>
         Checkout
       </button>
     </div>

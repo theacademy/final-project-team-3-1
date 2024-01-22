@@ -14,9 +14,24 @@ import java.util.List;
 public class CartServiceImp {
     private final CartRepository cartRepository;
 
-    // Constructor
     public CartServiceImp(CartRepository cartRepository) {
         this.cartRepository = cartRepository;
+    }
+
+    public void checkoutCart(Long cartId) {
+        Cart cart = cartRepository.findById(cartId).orElse(null);
+
+        // Check if the cart exists
+        if (cart != null) {
+            // Update the cart status to 'Ordered'
+            cart.setStatus("Ordered");
+
+            // Save the updated cart
+            cartRepository.save(cart);
+        } else {
+            // Handle case where the cart with the given ID is not found
+
+        }
     }
 
 }

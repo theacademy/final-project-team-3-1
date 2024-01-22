@@ -30,6 +30,8 @@ public class Config {
         source.registerCorsConfiguration("/authenticate", configuration);
         source.registerCorsConfiguration("/products/", configuration);
         source.registerCorsConfiguration("/products/{id}", configuration);
+        source.registerCorsConfiguration("/buyer-information/", configuration);
+
         return source;
     }
 }

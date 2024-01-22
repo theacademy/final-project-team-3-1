@@ -1,5 +1,6 @@
 package com.team3.shop.service;
 
+import com.team3.shop.dto.CartDto;
 import com.team3.shop.dto.UserDto;
 import com.team3.shop.model.Seller;
 import com.team3.shop.model.User;
@@ -26,6 +27,9 @@ public class UserServiceImpl {
 
         User savedUser = userRepository.saveAndFlush(user);
         UserDto responseUserDto = new UserDto(savedUser);
+        //assign a cart to the new user
+        CartDto cartDto = new CartDto();
+        cartDto.setUserId(responseUserDto.getId());
         responseUserDto.setPassword(null);
         return responseUserDto;
     }
