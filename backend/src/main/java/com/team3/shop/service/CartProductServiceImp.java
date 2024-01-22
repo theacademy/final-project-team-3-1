@@ -4,7 +4,11 @@ import com.team3.shop.dto.CartProductDto;
 import com.team3.shop.model.CartProduct;
 import com.team3.shop.repository.CartProductRepository;
 import com.team3.shop.repository.CartRepository;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@Service
 public class CartProductServiceImp {
 
     private final CartProductRepository cartProductRepository;
@@ -14,7 +18,24 @@ public class CartProductServiceImp {
         this.cartProductRepository = cartProductRepository;
     }
     public void addItemToCart(CartProductDto cartProductDto) {
-        cartProductRepository.saveItem(cartProductDto);
+        CartProduct cartProduct = new CartProduct();
+        cartProduct.setCart_id(cartProductDto.getCartId());
+        cartProduct.setProduct_id(cartProductDto.getProductId());
+        cartProductRepository.save(cartProduct);
+    }
 
+    public List<CartProduct> getAllItems() {
+        return cartProductRepository.findAll();
+    }
+
+
+    public CartProduct getItemById(Long itemId) {
+        return cartProductRepository.findById(itemId).orElseThrow();
+    }
+
+
+    public void removeItem(Long itemId) {
+        CartProduct cartProductToDelete = cartProductRepository.findById(itemId).orElseThrow();
+        cartProductRepository.delete(cartProductToDelete);
     }
 }

@@ -19,17 +19,4 @@ public class CartServiceImp {
         this.cartRepository = cartRepository;
     }
 
-    public List<CartDto> getAllItems() {
-        return cartRepository.getAllItems();
-    }
-
-
-    public CartDto getItemById(Long itemId) {
-        return cartRepository.getItemById(itemId);
-    }
-
-
-    public void removeItem(Long itemId) {
-        cartRepository.removeItem(itemId);
-    }
 }

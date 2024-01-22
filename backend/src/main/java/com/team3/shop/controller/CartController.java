@@ -25,24 +25,27 @@ public class CartController {
         this.cartProductServiceImp = cartProductServiceImp;
     }
 
-    @GetMapping("/items")
-    public List<CartDto> getAllItems() {
-        return cartServiceImp.getAllItems();
-    }
-
-    @GetMapping("/items/{itemId}")
-    public CartDto getItemById(@PathVariable Long itemId) {
-        return cartServiceImp.getItemById(itemId);
-    }
+//    @GetMapping("/items")
+//    public List<CartProductDto> getAllItems() {
+//        // TODO: make dtos from entities
+//        return cartProductServiceImp.getAllItems();
+//    }
+//
+//    @GetMapping("/items/{itemId}")
+//    public CartDto getItemById(@PathVariable Long itemId) {
+//        // TODO: make dto from entity
+//        return cartProductServiceImp.getItemById(itemId);
+//    }
 
     @PostMapping("/items")
     public ResponseEntity<Void> addItemToCart(@RequestBody CartProductDto cartItem) {
         cartProductServiceImp.addItemToCart(cartItem);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
     @DeleteMapping("/items/{itemId}")
     public void removeItem(@PathVariable Long itemId) {
-        cartServiceImp.removeItem(itemId);
+        cartProductServiceImp.removeItem(itemId);
     }
 }
 
