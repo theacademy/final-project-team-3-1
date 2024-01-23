@@ -139,10 +139,10 @@ function Dashboard() {
                 {products.map((product, index) => (
                     <tr key={product.id}>
                         <td>
-                            { product.imageUrl && <img src={product.imageUrl} alt={product.name} style={{ width: '50px', height: 'auto' }}/> }
+                            { product.imageUrl && <img src={"http://localhost:8080/" + product.imageUrl} alt={product.name} style={{ width: '50px', height: 'auto' }}/> }
                         </td>
                         <td>
-                            <a href={"/product/" + product.id}>{product.name}</a>
+                            <a href={"/products/" + product.id}>{product.name}</a>
                         </td>
                         <td>
                             {product.price}

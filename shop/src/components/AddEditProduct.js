@@ -24,20 +24,21 @@ const AddEditProduct = () => {
 
   const createProduct = async () => {
     const token = localStorage.getItem('shop_access_token');
+    const formData = new FormData();
+    formData.append('name', product.name);
+    formData.append('price', product.price);
+    formData.append('description', product.description);
+    if (product.image) {
+      formData.append('image', product.image);
+    }
 
     try {
       const response = await fetch('http://localhost:8080/products/create', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({
-          name: product.name,
-          price: product.price,
-          imageUrl: product.imageUrl,
-          description: product.description
-        }),
+        body: formData,
       });
 
       if (!response.ok) throw new Error('Error creating product');
@@ -53,20 +54,22 @@ const AddEditProduct = () => {
 
   const updateProduct = async () => {
     const token = localStorage.getItem('shop_access_token');
+    const formData = new FormData();
+    formData.append('name', product.name);
+    formData.append('price', product.price);
+    formData.append('description', product.description);
+    if (product.image) {
+      formData.append('image', product.image);
+    }
 
     try {
       const response = await fetch(`http://localhost:8080/products/${id}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
+          // Notice: 'Content-Type' header is not set here
         },
-        body: JSON.stringify({
-          name: product.name,
-          price: product.price,
-          imageUrl: product.imageUrl,
-          description: product.description
-        }),
+        body: formData,
       });
 
       if (!response.ok) throw new Error('Error updating product');
@@ -78,7 +81,7 @@ const AddEditProduct = () => {
       console.error('Error updating product:', error);
       alert('Error updating product');
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

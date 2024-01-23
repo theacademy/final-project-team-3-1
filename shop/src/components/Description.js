@@ -57,11 +57,11 @@ const Description = () => {
     <div className="page-container">
       <div className="description-container">
         <div className="description-content-left">
-          <img
-            src={product.imageUrl}
+          {product.imageUrl && <img
+            src={"http://localhost:8080/" + product.imageUrl}
             alt={product.name}
             className="description-image"
-          />
+          />}
           <p className="description-price">Price: ${product.price}</p>
         </div>
         <div className="description-content-right">
