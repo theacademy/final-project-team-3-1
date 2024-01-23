@@ -37,7 +37,7 @@ const Cart = () => {
     navigate("/buyer-information", {
       state: {
         products: cartItems,
-        cartId: 123, // Replace with your actual cart ID
+        cartId: 1, // Replace with your actual cart ID
       },
     });
   };

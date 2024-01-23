@@ -33,6 +33,7 @@ public class Config {
         source.registerCorsConfiguration("/api/buyer-information/", configuration);
         source.registerCorsConfiguration("/api/buyer-information/paypal", configuration);
         source.registerCorsConfiguration("/api/buyer-information/paypal/{cartId}", configuration);
+        source.registerCorsConfiguration("/api/buyer-information/{id}", configuration);
 
         return source;
     }
