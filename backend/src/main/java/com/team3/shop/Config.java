@@ -30,6 +30,7 @@ public class Config {
         source.registerCorsConfiguration("/authenticate", configuration);
         source.registerCorsConfiguration("/products/", configuration);
         source.registerCorsConfiguration("/products/{id}", configuration);
+
         source.registerCorsConfiguration("/api/buyer-information/", configuration);
         source.registerCorsConfiguration("/api/buyer-information/paypal", configuration);
         source.registerCorsConfiguration("/api/buyer-information/paypal/{cartId}", configuration);
