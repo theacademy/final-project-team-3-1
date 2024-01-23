@@ -29,7 +29,6 @@ public class BuyerInformationController {
 
     @PutMapping("/paypal/{cartId}/{userId}")
     public ResponseEntity<String> paypal(@PathVariable Long cartId, @RequestBody BuyerInformationDto buyerInformationDto, @RequestBody Long userId) {
-        System.out.println("calledddddddddddd");
         try {
             // Update cart status
             cartServiceImp.checkoutCart(cartId);
