@@ -22,6 +22,25 @@ const Description = () => {
           throw new Error(`Error fetching data: ${response.status} ${response.statusText}`);
         }
       })
+  // Description.js
+//   const addToCart = () => {
+//     // Create a CartDto object to send to the backend
+//     const productItem = {
+//       id: product.id,
+//       name: product.name,
+//       price: product.price,
+//       img_url: product.images[0], // Assuming the first image is the representative one
+//     };
+
+    // Make a POST request to the backend
+    fetch('http://localhost:3000/api/cart/items', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(productItem),
+    })
+      .then(response => response.json())
       .then(data => {
         console.log('Fetched product data:', data);
         setProduct(data);

@@ -3,18 +3,17 @@ package com.team3.shop.service;
 import com.team3.shop.dto.CartProductDto;
 import com.team3.shop.model.CartProduct;
 import com.team3.shop.repository.CartProductRepository;
-import com.team3.shop.repository.CartRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class CartProductServiceImp {
+public class CartProductServiceImpl {
 
     private final CartProductRepository cartProductRepository;
 
     // Constructor
-    public CartProductServiceImp(CartProductRepository cartProductRepository) {
+    public CartProductServiceImpl(CartProductRepository cartProductRepository) {
         this.cartProductRepository = cartProductRepository;
     }
     public void addItemToCart(CartProductDto cartProductDto) {
@@ -38,4 +37,6 @@ public class CartProductServiceImp {
         CartProduct cartProductToDelete = cartProductRepository.findById(itemId).orElseThrow();
         cartProductRepository.delete(cartProductToDelete);
     }
+
+
 }
