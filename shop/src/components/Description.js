@@ -1,51 +1,87 @@
-// Description.js
-import React, { useState } from 'react';
-import Product from './Product';
-import Navbar from './NavBar'; // Import the Navbar component
-import './Description.css'; // Import the CSS file for styling
-import stanleyCup from '../images/StanleyCup.png'; // Import the image
-import stanleyCup2 from '../images/StanleyCup2.png';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+
+import './Description.css';
 
 const Description = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  
+  // State for the product details
   const [product, setProduct] = useState({
-    name: 'Product Name',
-    images: [stanleyCup, stanleyCup2], 
-    price: 19.99,
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    name: '',
+    imageUrl: [''],
+    price: 0,
+    description: '',
   });
 
-  // Description.js
-  const addToCart = () => {
-    // Create a CartDto object to send to the backend
+  // State for the cart items
+  const [cartItems, setCartItems] = useState([]);
+
+  useEffect(() => {
+    console.log('Fetching data for product ID:', id);
+    fetch(`http://localhost:8080/products/${id}`)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error(`Error fetching data: ${response.status} ${response.statusText}`);
+        }
+      })
+      .then(data => {
+        setProduct(data);
+      })
+      .catch(error => {
+        console.error('Error fetching product data:', error);
+      });
+  }, [id]);
+  const handleAddToCart = () => {
+    const token = localStorage.getItem('shop_access_token');
+
     const productItem = {
       id: product.id,
       name: product.name,
       price: product.price,
-      img_url: product.images[0], // Assuming the first image is the representative one
+      imageUrl: product.imageUrl,
     };
-
-    // Make a POST request to the backend
-    fetch('http://localhost:3000/api/cart/items', {
+    fetch('http://localhost:8080/api/cart/items', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(productItem),
     })
       .then(response => response.json())
       .then(data => {
-        console.log('Product added to cart:', data);
-        // You can perform additional actions if needed
+        console.log('Product added to cart database:', data);
       })
       .catch(error => {
-        console.error('Error adding product to cart:', error);
+        console.error('Error adding product to cart database:', error);
       });
   };
 
-
   return (
-    <div>
-      <Product {...product} addToCart={addToCart} />
+    <div className="page-container">
+      <div className="description-container">
+        <div className="description-content-left">
+          <img
+            src={product.imageUrl}
+            alt={product.name}
+            className="description-image"
+          />
+          <p className="description-price">Price: ${product.price}</p>
+        </div>
+        <div className="description-content-right">
+          <h1 className="description-title">{product.name}</h1>
+          <p className="description-description">{product.description}</p>
+          <button className="add-to-cart" onClick={handleAddToCart}>
+            Add to Cart
+          </button>
+          {/* Link to the Cart page */}
+          <Link to="/cart">View Cart</Link>
+        </div>
+      </div>
     </div>
   );
 };

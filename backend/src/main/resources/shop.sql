@@ -59,7 +59,7 @@ CREATE TABLE cart_products(
     cart_id int NOT NULL,
     product_id int NOT NULL,
     FOREIGN KEY (cart_id) REFERENCES carts (id),
-    FOREIGN KEY (cart_id) REFERENCES products (id),
+    FOREIGN KEY (product_id) REFERENCES products (id),
     PRIMARY KEY (id)
 );
 
