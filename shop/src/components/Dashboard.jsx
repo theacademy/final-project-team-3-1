@@ -97,6 +97,32 @@ function Dashboard() {
             });
     };
 
+    function handleDeleteClick(productId) {
+        const isConfirmed = window.confirm("Are you sure you want to delete this product?");
+        if (isConfirmed) {
+            const token = localStorage.getItem('shop_access_token');
+
+            fetch(`http://localhost:8080/products/${productId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Error deleting product: ${response.status} ${response.statusText}`);
+                    }
+                    return response;
+                })
+                .then(() => {
+                    fetchAllProducts(); // Fetch all products again to update the list
+                })
+                .catch(error => {
+                    console.error('Error occurred while deleting product:', error);
+                });
+        }
+    }
+
     function getProductTable() {
         return (
             <table>
@@ -113,10 +139,10 @@ function Dashboard() {
                 {products.map((product, index) => (
                     <tr key={product.id}>
                         <td>
-                            <img src={product.imageUrl} alt={product.name} style={{ width: '50px', height: 'auto' }}/>
+                            { product.imageUrl && <img src={"http://localhost:8080/" + product.imageUrl} alt={product.name} style={{ width: '50px', height: 'auto' }}/> }
                         </td>
                         <td>
-                            <a href={"/product/" + product.id}>{product.name}</a>
+                            <a href={"/products/" + product.id}>{product.name}</a>
                         </td>
                         <td>
                             {product.price}
@@ -125,7 +151,7 @@ function Dashboard() {
                             <a href={"/add-edit-product/" + product.id}>Edit</a>
                         </td>
                         <td>
-                            <button>Delete</button>
+                            <button onClick={() => handleDeleteClick(product.id)}>Delete</button>
                         </td>
                     </tr>
                 ))}

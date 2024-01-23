@@ -37,6 +37,7 @@ import java.math.BigDecimal;
             this.name = productDto.getName();
             this.price = productDto.getPrice();
             this.imageUrl = productDto.getImageUrl();
+            this.description = productDto.getDescription();
             this.seller = productDto.getSeller();
         }
 

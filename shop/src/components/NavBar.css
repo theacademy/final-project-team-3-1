@@ -35,13 +35,22 @@
 .nav-link-home,
 .nav-link-dashboard,
 .nav-link-login,
+.nav-link-sign-up,
 .nav-link-cart {
   font-size: 1.5vw; 
   margin-top: 5px;
 }
 
+.nav-link-login {
+    margin-left: 4vw;
+}
+
+.nav-link-sign-up {
+    margin-left: 2vw;
+}
+
 .nav-link-cart {
-  margin-left: 11vw;
+  margin-left: 4vw;
 }
 
 .search-container {
