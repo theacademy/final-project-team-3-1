@@ -36,6 +36,8 @@ const Description = () => {
       });
   }, [id]);
   const handleAddToCart = () => {
+    const token = localStorage.getItem('shop_access_token');
+
     const productItem = {
       id: product.id,
       name: product.name,
@@ -46,6 +48,7 @@ const Description = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(productItem),
     })
