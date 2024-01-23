@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './NavBar.css';
 
 const NavBar = ({ onSearch }) => {
   const [input, setInput] = useState('');
   const navigate = useNavigate();
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(true);
 
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
@@ -16,6 +17,11 @@ const NavBar = ({ onSearch }) => {
     onSearch(input);
     navigate('/results');
   };
+
+    useEffect(() => {
+        const token = localStorage.getItem('shop_access_token');
+        setIsUserLoggedIn(!!token);
+    }, []);
 
   return (
     <nav>
@@ -35,8 +41,9 @@ const NavBar = ({ onSearch }) => {
               Search
             </button>
           </div>
-          <li><a href="/cart" className="nav-link-cart">Cart</a></li>
-          <li><a href="/login" className="nav-link-login">Login</a></li>
+            {isUserLoggedIn ? <li><a href="/cart" className="nav-link-cart">Cart</a></li> : <></> }
+            {isUserLoggedIn ? <></> : <li><a href="/login" className="nav-link-login">Login</a></li>}
+            {isUserLoggedIn ? <></> : <li><a href="/sign-up" className="nav-link-sign-up">Sign Up</a></li>}
         </ul>
       </div>
     </nav>

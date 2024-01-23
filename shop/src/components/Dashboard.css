@@ -7,38 +7,38 @@
         margin-right: auto;
         margin-left: 10px;
     }
-}
 
-.charts-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-
-    .line-chart, .bar-chart {
-        width: 500px;
-    }
-}
-
-.table-container {
-    text-align: left;
-
-    .table-title {
+    .charts-row {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
+        flex-direction: row;
+        justify-content: center;
 
-        .add-product-button {
-            margin-left: auto;
-            margin-right: 4.5rem;
-            color: unset;
+        .line-chart, .bar-chart {
+            width: 500px;
         }
     }
 
-    table {
-        width: 700px;
+    .table-container {
+        text-align: left;
 
-        a {
-            color: unset;
+        .table-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .add-product-button {
+                margin-left: auto;
+                margin-right: 4.5rem;
+                color: unset;
+            }
+        }
+
+        table {
+            width: 700px;
+
+            a {
+                color: unset;
+            }
         }
     }
 }

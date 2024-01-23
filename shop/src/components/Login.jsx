@@ -1,9 +1,11 @@
 import { useState } from "react";
 import './Login.css'
+import {useNavigate} from "react-router-dom";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
+    const navigate = useNavigate();
 
     function handleSubmitClick(event) {
         event.preventDefault();
@@ -21,9 +23,8 @@ function Login() {
         })
             .then((response) => response.json())
             .then(data => {
-                // TODO: Enable redirect routing
-                // this.setState({ ...this.state, bearer: data['accessToken'] })
                 localStorage.setItem("shop_access_token", data['accessToken']);
+                navigate('/');
             })
     }
 
