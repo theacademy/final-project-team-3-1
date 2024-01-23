@@ -19,26 +19,26 @@ public class BuyerInformationController {
         this.buyerInformationServiceImpl = buyerInformationServiceImpl;
     }
 
-    @PutMapping("/paypal/{cartId}")
-    public ResponseEntity<String> paypal(@PathVariable Long cartId, @RequestBody BuyerInformationDto buyerInformationDto) {
-        System.out.println("Received PUT request for /api/buyer-information/paypal/" + cartId);
+        @PutMapping("/paypal/{cartId}")
+        public ResponseEntity<String> paypal(@PathVariable Long cartId, @RequestBody BuyerInformationDto buyerInformationDto,  @RequestBody Long userId) {
 
-        try {
-            // Update cart status
-            cartServiceImp.checkoutCart(cartId);
+            try {
+                // Update cart status
+                cartServiceImp.checkoutCart(cartId);
 
-            // Save buyer information
-            buyerInformationServiceImpl.saveBuyerInformation(buyerInformationDto);
+                // Save buyer information
+                buyerInformationDto.setUserId(userId);
+                buyerInformationServiceImpl.saveBuyerInformation(buyerInformationDto);
 
-            // Perform PayPal integration or any other payment processing logic
+                // Perform PayPal integration or any other payment processing logic
 
-            // Return success response
-            return ResponseEntity.ok("Checkout successful!");
-        } catch (Exception e) {
-            // Log the exception for debugging purposes
-            e.printStackTrace();
-            // Handle other errors
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error during checkout");
+                // Return success response
+                return ResponseEntity.ok("Checkout successful!");
+            } catch (Exception e) {
+                // Log the exception for debugging purposes
+                e.printStackTrace();
+                // Handle other errors
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error during checkout");
+            }
         }
-    }
 }
