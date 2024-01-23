@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import './AddEditProduct.css';
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 const AddEditProduct = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [product, setProduct] = useState({
     name: '',
@@ -43,7 +44,7 @@ const AddEditProduct = () => {
 
       const newProduct = await response.json();
       setProduct(newProduct);
-      alert('Product created successfully!');
+      navigate('/dashboard');
     } catch (error) {
       console.error('Error creating product:', error);
       alert('Error creating product');
@@ -72,7 +73,7 @@ const AddEditProduct = () => {
 
       const updatedProduct = await response.json();
       setProduct(updatedProduct);
-      alert('Product updated successfully!');
+      navigate('/dashboard');
     } catch (error) {
       console.error('Error updating product:', error);
       alert('Error updating product');
@@ -95,7 +96,10 @@ const AddEditProduct = () => {
         const response = await fetch(`http://localhost:8080/products/${id}`);
         if (!response.ok) throw new Error('Product not found');
         const data = await response.json();
-        setProduct(data);
+        setProduct({
+          ...data,
+          description: data.description || ''
+        });
       } catch (error) {
         console.error('Error fetching product:', error);
       }
