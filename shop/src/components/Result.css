@@ -1,32 +1,25 @@
-/* Result.css */
-
-.result-container {
-  max-width: 800px;
-  margin: auto;
-  text-align: center; /* Center the content */
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
-.search-header {
-  margin-bottom: 20px;
-}
-
-.search-keyword-box {
+.product-container {
   border: 1px solid #ccc;
-  padding: 15px; /* Increase padding to make it bigger */
-  display: inline-block;
-  margin-left: 10px; /* Add some margin for separation */
-  width: 200px; /* Set a specific width for the rectangle */
-  height: 15px; /* Set a specific height for the rectangle */
-}
-
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 16px;
-}
-
-.grid-item {
-  border: 1px solid #ccc;
-  padding: 0px;
+  padding: 5px;
+  margin: 10px;
+  border-radius: 5px;
   text-align: center;
+  width: 200px; 
+}
+
+.product-image {
+  width: 100%;
+  height: auto; 
+  margin-bottom: 5px;
+}
+
+.product-text {
+  text-decoration: none;
+  color: #333;
 }
