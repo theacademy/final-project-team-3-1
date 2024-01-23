@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 
 import './Description.css';
 
 const Description = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  
+  // State for the product details
   const [product, setProduct] = useState({
     name: '',
     imageUrl: [''],
     price: 0,
     description: '',
   });
+
+  // State for the cart items
+  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
     console.log('Fetching data for product ID:', id);
@@ -22,18 +28,21 @@ const Description = () => {
           throw new Error(`Error fetching data: ${response.status} ${response.statusText}`);
         }
       })
-  // Description.js
-//   const addToCart = () => {
-//     // Create a CartDto object to send to the backend
-//     const productItem = {
-//       id: product.id,
-//       name: product.name,
-//       price: product.price,
-//       img_url: product.images[0], // Assuming the first image is the representative one
-//     };
-
-    // Make a POST request to the backend
-    fetch('http://localhost:3000/api/cart/items', {
+      .then(data => {
+        setProduct(data);
+      })
+      .catch(error => {
+        console.error('Error fetching product data:', error);
+      });
+  }, [id]);
+  const handleAddToCart = () => {
+    const productItem = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      imageUrl: product.imageUrl,
+    };
+    fetch('http://localhost:8080/api/cart/items', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -42,17 +51,13 @@ const Description = () => {
     })
       .then(response => response.json())
       .then(data => {
-        console.log('Fetched product data:', data);
-        setProduct(data);
+        console.log('Product added to cart database:', data);
       })
       .catch(error => {
-        console.error('Error fetching product data:', error);
+        console.error('Error adding product to cart database:', error);
       });
-  }, [id]);
-  const handleAddtoCart = () => {
-    console.log('Add to Cart clicked');
-    handleAddtoCart(product);
-  }
+  };
+
   return (
     <div className="page-container">
       <div className="description-container">
@@ -67,9 +72,11 @@ const Description = () => {
         <div className="description-content-right">
           <h1 className="description-title">{product.name}</h1>
           <p className="description-description">{product.description}</p>
-          <button className="add-to-cart" onClick={() => console.log('Add to Cart clicked')}>
+          <button className="add-to-cart" onClick={handleAddToCart}>
             Add to Cart
           </button>
+          {/* Link to the Cart page */}
+          <Link to="/cart">View Cart</Link>
         </div>
       </div>
     </div>

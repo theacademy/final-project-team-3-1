@@ -29,6 +29,7 @@ public class UserServiceImpl {
         UserDto responseUserDto = new UserDto(savedUser);
         //assign a cart to the new user
         CartDto cartDto = new CartDto();
+        cartDto.setStatus("active");
         cartDto.setUserId(responseUserDto.getId());
         responseUserDto.setPassword(null);
         return responseUserDto;
