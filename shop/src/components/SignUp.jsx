@@ -1,5 +1,6 @@
 import { useState } from "react";
 import './SignUp.css'
+import {useNavigate} from "react-router-dom";
 
 function SignUp() {
     const [firstName, setFirstName] = useState("")
@@ -8,6 +9,7 @@ function SignUp() {
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
     const [isSeller, setIsSeller] = useState("")
+    const navigate = useNavigate();
 
     function handleSubmitClick(event) {
         event.preventDefault();
@@ -28,10 +30,8 @@ function SignUp() {
         })
             .then((response) => response.json())
             .then(data => {
-                // TODO: Enable redirect routing
-                // this.setState({ ...this.state, bearer: data['access_token'] })
                 localStorage.setItem("shop_access_token", data['access_token']);
-                // window.location.replace(`${window.location.origin}/`);
+                navigate('/');
             })
     }
 

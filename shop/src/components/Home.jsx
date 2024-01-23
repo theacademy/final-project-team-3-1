@@ -26,7 +26,7 @@ function Home() {
                 }
             })
             .then(data => {
-                setProducts(data);
+                setProducts(data.slice(0,5));
             })
             .catch(error => {
                 console.error('Error occurred while fetching products:', error);
