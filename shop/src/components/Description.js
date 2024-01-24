@@ -37,13 +37,14 @@ const Description = () => {
   }, [id]);
   const handleAddToCart = () => {
     const token = localStorage.getItem('shop_access_token');
-
+  
     const productItem = {
       id: product.id,
       name: product.name,
       price: product.price,
       imageUrl: product.imageUrl,
     };
+  
     fetch('http://localhost:8080/api/cart/items', {
       method: 'POST',
       headers: {
@@ -52,15 +53,31 @@ const Description = () => {
       },
       body: JSON.stringify(productItem),
     })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Error adding product to cart: ${response.status} ${response.statusText}`);
+        }
+        return response.text();
+      })
       .then(data => {
-        console.log('Product added to cart database:', data);
+        // Check if the response body is not empty before parsing
+        const jsonData = data.trim(); // Remove leading and trailing whitespaces
+        if (jsonData) {
+          try {
+            const parsedData = JSON.parse(jsonData);
+            console.log('Product added to cart database:', parsedData);
+          } catch (error) {
+            console.error('Error parsing JSON:', error);
+          }
+        } else {
+          console.log('Empty response from the server');
+        }
       })
       .catch(error => {
-        console.error('Error adding product to cart database:', error);
+        console.error('Error adding product to cart database:', error.message);
       });
   };
-
+  
   return (
     <div className="page-container">
       <div className="description-container">
