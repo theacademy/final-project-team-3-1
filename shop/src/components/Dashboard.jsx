@@ -162,21 +162,24 @@ function Dashboard() {
 
     return (
         <div className="dashboard-container">
-            <h1>Sales Dashboard</h1>
-            <div className="charts-row">
-                <div className="line-chart">
-                    <Line data={salesOverTimeData} />
-                </div>
-                <div className="bar-chart">
-                    <Bar data={productPerformanceData} options={productPerformanceOptions}/>
-                </div>
-            </div>
             <div className="table-container">
                 <div className="table-title">
                     <h2>All Products</h2>
                     <a className="add-product-button" href={"/add-edit-product/"}>Add Product</a>
                 </div>
                 {getProductTable()}
+            </div>
+            <div className="charts-row">
+                <h2>Overall Sales</h2>
+                <div className="line-chart">
+                    <Line data={salesOverTimeData}/>
+                </div>
+            </div>
+            <div className="charts-row">
+                <h2>Product Sales</h2>
+                <div className="bar-chart">
+                    <Bar data={productPerformanceData} options={productPerformanceOptions}/>
+                </div>
             </div>
         </div>
     );

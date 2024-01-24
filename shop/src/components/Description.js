@@ -95,8 +95,6 @@ const Description = () => {
           <button className="add-to-cart" onClick={handleAddToCart}>
             Add to Cart
           </button>
-          {/* Link to the Cart page */}
-          <Link to="/cart">View Cart</Link>
         </div>
       </div>
     </div>

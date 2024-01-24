@@ -10,6 +10,7 @@
     h1 {
         font-size: 2rem;
         color: rgb(220, 155, 220);
+        font-weight: initial;
     }
 
     form {

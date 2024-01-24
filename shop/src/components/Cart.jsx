@@ -59,7 +59,7 @@ const removeFromCart = (itemId) => {
       <h2>Cart</h2>
       {cartItems.map((item) => (
         <div key={item.id} className="cart-item">
-          <img src={item.imageUrl} alt={item.name} className="cart-item-img" />
+          <img src={"http://localhost:8080/" + item.imageUrl} alt={item.name} className="cart-item-img" />
           <div className="cart-item-details">
             <div className="cart-item-title">{item.name}</div>
             <div className="cart-item-actions">

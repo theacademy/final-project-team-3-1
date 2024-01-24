@@ -26,16 +26,16 @@ function Home() {
                 }
             })
             .then(data => {
-                setProducts(data.slice(0,5));
+                setProducts(data);
             })
             .catch(error => {
                 console.error('Error occurred while fetching products:', error);
             });
     };
 
-    function getProductGrid() {
+    function getProductGrid(begin, end) {
         return (<div className="product-grid">
-            {products.map((product, index) => (
+            {products.slice(begin, end).map((product, index) => (
                 <a key={product.id} className="product" href={"/products/" + product.id}>
                     <div>
                         <img src={"http://localhost:8080/" + product.imageUrl} alt=""/>
@@ -51,18 +51,26 @@ function Home() {
 
     return (
         <div className="home-container">
-            <h1>Welcome</h1>
+            <div className="hero-section">
+                <div className="left">
+                </div>
+                <div className="right">
+                    <h1>Next Event</h1>
+                    <h3>London 2024</h3>
+                    <a href="/products?show=onefivefour">View Work</a>
+                </div>
+            </div>
             <div className="section">
                 <h2>For You</h2>
-                { getProductGrid() }
+                { getProductGrid(5,10) }
             </div>
             <div className="section">
                 <h2>Featured</h2>
-                { getProductGrid() }
+                { getProductGrid(10,15) }
             </div>
             <div className="section">
-                <h2>Recently Added</h2>
-                { getProductGrid() }
+                <h2>Emerging</h2>
+                { getProductGrid(0,5) }
             </div>
         </div>
     );
