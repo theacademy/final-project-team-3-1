@@ -7,40 +7,38 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [cartId, setCartId] = useState(null);
 
-  useEffect(() => {
-    const token = localStorage.getItem('shop_access_token');
+  function fetchAllProducts() {
+      const token = localStorage.getItem('shop_access_token');
 
-    fetch('http://localhost:8080/api/cart/items', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      },
-    })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error(`Error fetching cart items: ${response.status} ${response.statusText}`);
-        }
+      fetch('http://localhost:8080/api/cart/items', {
+          method: 'GET',
+          headers: {
+              'Authorization': `Bearer ${token}`
+          },
       })
-      .then(data => {
-        setCartItems(data);
-        // Set cartId from the fetched data
-        if (data.length > 0) {
-          setCartId(data[0].cartId); // Assuming cartId is present in the response
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching cart items:', error);
-      });
+          .then(response => {
+              if (response.ok) {
+                  return response.json();
+              } else {
+                  throw new Error(`Error fetching cart items: ${response.status} ${response.statusText}`);
+              }
+          })
+          .then(data => {
+              setCartItems(data);
+              // Set cartId from the fetched data
+              if (data.length > 0) {
+                  setCartId(data[0].cartId); // Assuming cartId is present in the response
+              }
+          })
+          .catch(error => {
+              console.error('Error fetching cart items:', error);
+          });
+  }
+
+  useEffect(() => {
+      fetchAllProducts();
   }, []);
 
-
- // Function to remove an item from the cart
-const removeFromCart = (itemId) => {
-  const updatedCart = cartItems.filter((item) => item.id !== itemId);
-  setCartItems(updatedCart);
-};
 
   const calculateTotalPrice = () => {
     return cartItems.reduce((total, item) => total + item.price, 0);
@@ -54,7 +52,35 @@ const removeFromCart = (itemId) => {
       },
     });
   };
-  return (
+
+    function handleDeleteClick(productId) {
+        const isConfirmed = window.confirm("Are you sure you want to delete this product?");
+        if (isConfirmed) {
+            const token = localStorage.getItem('shop_access_token');
+
+            fetch(`http://localhost:8080/api/cart/items/${productId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Error deleting product: ${response.status} ${response.statusText}`);
+                    }
+                    return response;
+                })
+                .then(() => {
+                    fetchAllProducts(); // Fetch all products again to update the list
+                })
+                .catch(error => {
+                    console.error('Error occurred while deleting product:', error);
+                });
+        }
+    }
+
+
+    return (
     <div className="cart-container">
       <h2>Cart</h2>
       {cartItems.map((item) => (
@@ -63,7 +89,7 @@ const removeFromCart = (itemId) => {
           <div className="cart-item-details">
             <div className="cart-item-title">{item.name}</div>
             <div className="cart-item-actions">
-              <button onClick={() => removeFromCart(item.id)}>Remove</button>
+              <button onClick={() => handleDeleteClick(item.id)}>Remove</button>
               Price: ${item.price}
             </div>
           </div>

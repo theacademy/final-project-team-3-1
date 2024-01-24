@@ -76,9 +76,10 @@ const BuyerInformation = () => {
         return;
       }
       await axios.put(`http://127.0.0.1:8080/api/buyer-information/paypal/${cartId}`, buyerInfo, userId);
-      navigate("/checkout-confirmation");
+      navigate("/confirmation");
     } catch (error) {
       console.error("Full error details:", error);
+        navigate("/confirmation");
     }
   };
 
