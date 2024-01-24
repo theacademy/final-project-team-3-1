@@ -44,7 +44,9 @@ public class ProductServiceImpl  {
         // Update fields based on productDTO
         existingProduct.setName(productDTO.getName());
         existingProduct.setPrice(productDTO.getPrice());
-        existingProduct.setImageUrl(productDTO.getImageUrl());
+        if (productDTO.getImageUrl() != null) {
+            existingProduct.setImageUrl(productDTO.getImageUrl());
+        }
         existingProduct.setDescription(productDTO.getDescription());
 
         // Save the updated product

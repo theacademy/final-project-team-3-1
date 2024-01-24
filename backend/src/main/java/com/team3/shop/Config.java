@@ -21,7 +21,7 @@ public class Config {
     public static CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-        configuration.setAllowedMethods(List.of("POST", "GET", "PUT", "HEAD", "OPTIONS"));
+        configuration.setAllowedMethods(List.of("POST", "GET", "PUT", "DELETE", "HEAD", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
 
@@ -33,7 +33,9 @@ public class Config {
         source.registerCorsConfiguration("/api/buyer-information/", configuration);
         source.registerCorsConfiguration("/api/buyer-information/paypal", configuration);
         source.registerCorsConfiguration("/api/buyer-information/paypal/{cartId}", configuration);
+        source.registerCorsConfiguration("/api/buyer-information/{id}", configuration);
         source.registerCorsConfiguration("/api/cart/items", configuration);
+
 
         return source;
     }

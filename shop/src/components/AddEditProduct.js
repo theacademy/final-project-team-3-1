@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import './AddEditProduct.css';
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 const AddEditProduct = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [product, setProduct] = useState({
     name: '',
@@ -23,27 +24,28 @@ const AddEditProduct = () => {
 
   const createProduct = async () => {
     const token = localStorage.getItem('shop_access_token');
+    const formData = new FormData();
+    formData.append('name', product.name);
+    formData.append('price', product.price);
+    formData.append('description', product.description);
+    if (product.image) {
+      formData.append('image', product.image);
+    }
 
     try {
       const response = await fetch('http://localhost:8080/products/create', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({
-          name: product.name,
-          price: product.price,
-          imageUrl: product.imageUrl,
-          description: product.description
-        }),
+        body: formData,
       });
 
       if (!response.ok) throw new Error('Error creating product');
 
       const newProduct = await response.json();
       setProduct(newProduct);
-      alert('Product created successfully!');
+      navigate('/dashboard');
     } catch (error) {
       console.error('Error creating product:', error);
       alert('Error creating product');
@@ -52,32 +54,34 @@ const AddEditProduct = () => {
 
   const updateProduct = async () => {
     const token = localStorage.getItem('shop_access_token');
+    const formData = new FormData();
+    formData.append('name', product.name);
+    formData.append('price', product.price);
+    formData.append('description', product.description);
+    if (product.image) {
+      formData.append('image', product.image);
+    }
 
     try {
       const response = await fetch(`http://localhost:8080/products/${id}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
+          // Notice: 'Content-Type' header is not set here
         },
-        body: JSON.stringify({
-          name: product.name,
-          price: product.price,
-          imageUrl: product.imageUrl,
-          description: product.description
-        }),
+        body: formData,
       });
 
       if (!response.ok) throw new Error('Error updating product');
 
       const updatedProduct = await response.json();
       setProduct(updatedProduct);
-      alert('Product updated successfully!');
+      navigate('/dashboard');
     } catch (error) {
       console.error('Error updating product:', error);
       alert('Error updating product');
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -95,7 +99,10 @@ const AddEditProduct = () => {
         const response = await fetch(`http://localhost:8080/products/${id}`);
         if (!response.ok) throw new Error('Product not found');
         const data = await response.json();
-        setProduct(data);
+        setProduct({
+          ...data,
+          description: data.description || ''
+        });
       } catch (error) {
         console.error('Error fetching product:', error);
       }
