@@ -17,11 +17,19 @@ public class CartProductServiceImpl {
         this.cartProductRepository = cartProductRepository;
     }
     public void addItemToCart(CartProductDto cartProductDto) {
-        CartProduct cartProduct = new CartProduct();
-        cartProduct.setCart_id(cartProductDto.getCartId());
-        cartProduct.setProduct_id(cartProductDto.getProductId());
-        cartProductRepository.save(cartProduct);
+        if (cartProductDto.getCartId() != null) {
+            CartProduct cartProduct = new CartProduct();
+            cartProduct.setCart_id(cartProductDto.getCartId());
+            cartProduct.setProduct_id(cartProductDto.getProductId());
+            cartProductRepository.save(cartProduct);
+        } else {
+            // Handle the case where cartId is null
+            // For now, we'll print a message to the console.
+            System.out.println("Attempted to add item to cart with null cartId.");
+            // You might want to throw an exception or handle it based on your application logic.
+        }
     }
+
 
     public List<CartProduct> getAllItems() {
         return cartProductRepository.findAll();

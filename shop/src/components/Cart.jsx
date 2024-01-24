@@ -1,53 +1,65 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Cart.css";
 
 const Cart = () => {
-  const navigate = useNavigate(); // Use useNavigate instead of useHistory
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Product 1",
-      price: 20,
-      img_url:
-        "https://cdn.dribbble.com/userupload/10564178/file/original-1344b65403b6787b07998a9fe93cc577.jpg?resize=512x384",
-    },
-    {
-      id: 2,
-      name: "Product 2",
-      price: 30,
-      img_url:
-        "https://cdn.dribbble.com/users/648290/screenshots/6161272/media/385e000b8732228c7844a119de9ae3a6.jpg?resize=512x354",
-    },
-  ]);
+  const navigate = useNavigate();
+  const [cartItems, setCartItems] = useState([]);
+  const [cartId, setCartId] = useState(null);
 
-  // Function to remove an item from the cart
-  const removeFromCart = (itemId) => {
-    const updatedCart = cartItems.filter((item) => item.id !== itemId);
-    setCartItems(updatedCart);
-  };
+  useEffect(() => {
+    const token = localStorage.getItem('shop_access_token');
 
-  // Function to calculate the total price
+    fetch('http://localhost:8080/api/cart/items', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error(`Error fetching cart items: ${response.status} ${response.statusText}`);
+        }
+      })
+      .then(data => {
+        setCartItems(data);
+        // Set cartId from the fetched data
+        if (data.length > 0) {
+          setCartId(data[0].cartId); // Assuming cartId is present in the response
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching cart items:', error);
+      });
+  }, []);
+
+
+ // Function to remove an item from the cart
+const removeFromCart = (itemId) => {
+  const updatedCart = cartItems.filter((item) => item.id !== itemId);
+  setCartItems(updatedCart);
+};
+
   const calculateTotalPrice = () => {
     return cartItems.reduce((total, item) => total + item.price, 0);
   };
 
   const handleCheckout = () => {
-    // Pass the list of products and cart ID to BuyerInformation
     navigate("/buyer-information", {
       state: {
         products: cartItems,
-        cartId: 123, // Replace with your actual cart ID
+        cartId: cartId, // Use the fetched cartId
       },
     });
   };
-
   return (
     <div className="cart-container">
       <h2>Cart</h2>
       {cartItems.map((item) => (
         <div key={item.id} className="cart-item">
-          <img src={item.img_url} alt={item.name} className="cart-item-img" />
+          <img src={item.imageUrl} alt={item.name} className="cart-item-img" />
           <div className="cart-item-details">
             <div className="cart-item-title">{item.name}</div>
             <div className="cart-item-actions">

@@ -6,8 +6,11 @@ import com.team3.shop.dto.CartDto;
 import com.team3.shop.dto.CartProductDto;
 import com.team3.shop.dto.ProductDto;
 import com.team3.shop.model.Cart;
+import com.team3.shop.model.CartProduct;
+import com.team3.shop.model.Product;
 import com.team3.shop.model.User;
 import com.team3.shop.repository.CartRepository;
+import com.team3.shop.repository.ProductRepository;
 import com.team3.shop.repository.UserRepository;
 import com.team3.shop.service.CartProductServiceImpl;
 import com.team3.shop.service.CartServiceImp;
@@ -18,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,6 +33,9 @@ public class CartController {
     private UserRepository userRepository;
 @Autowired
 private CartRepository cartRepository;
+@Autowired
+private ProductRepository productRepository;
+
     private final CartServiceImp cartServiceImp;
     private final CartProductServiceImpl cartProductServiceImpl;
 
@@ -37,18 +44,18 @@ private CartRepository cartRepository;
         this.cartServiceImp = cartServiceImp;
         this.cartProductServiceImpl = cartProductServiceImpl;
     }
-
-//    @GetMapping("/items")
-//    public List<CartProductDto> getAllItems() {
-//        // TODO: make dtos from entities
-//        return cartProductServiceImp.getAllItems();
-//    }
+    @GetMapping("/items")
+    public List<ProductDto> getAllItems() {
+        ArrayList<ProductDto> productDtos = new ArrayList<>();
+        for (CartProduct p: cartProductServiceImpl.getAllItems()){
+            Product product = productRepository.findById(p.getProduct_id()).get();
+            ProductDto productDto = new ProductDto(product);
+            productDtos.add(productDto);
+        }
+        return productDtos;
+    }
+    
 //
-//    @GetMapping("/items/{itemId}")
-//    public CartDto getItemById(@PathVariable Long itemId) {
-//        // TODO: make dto from entity
-//        return cartProductServiceImp.getItemById(itemId);
-//    }
 
     @PostMapping("/items")
     public ResponseEntity<Void> addItemToCart(@RequestBody ProductDto productItem) {
