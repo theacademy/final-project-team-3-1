@@ -35,6 +35,7 @@ public class Config {
         source.registerCorsConfiguration("/api/buyer-information/paypal/{cartId}", configuration);
         source.registerCorsConfiguration("/api/buyer-information/{id}", configuration);
         source.registerCorsConfiguration("/api/cart/items", configuration);
+        source.registerCorsConfiguration("/api/cart/items/{itemId}", configuration);
 
 
         return source;

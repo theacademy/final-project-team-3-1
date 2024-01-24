@@ -9,6 +9,7 @@ import com.team3.shop.model.Cart;
 import com.team3.shop.model.CartProduct;
 import com.team3.shop.model.Product;
 import com.team3.shop.model.User;
+import com.team3.shop.repository.CartProductRepository;
 import com.team3.shop.repository.CartRepository;
 import com.team3.shop.repository.ProductRepository;
 import com.team3.shop.repository.UserRepository;
@@ -36,6 +37,9 @@ private CartRepository cartRepository;
 @Autowired
 private ProductRepository productRepository;
 
+@Autowired
+private CartProductRepository cartProductRepository;
+
     private final CartServiceImp cartServiceImp;
     private final CartProductServiceImpl cartProductServiceImpl;
 
@@ -48,7 +52,7 @@ private ProductRepository productRepository;
     public List<ProductDto> getAllItems() {
         ArrayList<ProductDto> productDtos = new ArrayList<>();
         for (CartProduct p: cartProductServiceImpl.getAllItems()){
-            Product product = productRepository.findById(p.getProduct_id()).get();
+            Product product = productRepository.findById(p.getProductId()).get();
             ProductDto productDto = new ProductDto(product);
             productDtos.add(productDto);
         }
@@ -78,7 +82,11 @@ private ProductRepository productRepository;
 
     @DeleteMapping("/items/{itemId}")
     public void removeItem(@PathVariable Long itemId) {
-        cartProductServiceImpl.removeItem(itemId);
+        // Find the cartProduct ids that have this itemId
+        List<CartProduct> cartProductsToDelete = cartProductRepository.findByProductId(itemId);
+        for (CartProduct cartProduct : cartProductsToDelete) {
+            cartProductServiceImpl.removeItem(cartProduct.getId());
+        }
     }
 
     public User getAuthenticatedUser() {

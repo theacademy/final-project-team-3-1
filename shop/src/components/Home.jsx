@@ -44,7 +44,7 @@ function Home() {
                 </a>
             ))}
             <div className="view-all">
-                <a href={"/products?special=for-you"}>View All</a>
+                <a href={"/results"}>View All</a>
             </div>
         </div>);
     }
@@ -57,7 +57,7 @@ function Home() {
                 <div className="right">
                     <h1>Next Event</h1>
                     <h3>London 2024</h3>
-                    <a href="/products?show=onefivefour">View Work</a>
+                    <a href="/results">View Work</a>
                 </div>
             </div>
             <div className="section">

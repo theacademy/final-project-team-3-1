@@ -20,7 +20,7 @@ public class CartProductServiceImpl {
         if (cartProductDto.getCartId() != null) {
             CartProduct cartProduct = new CartProduct();
             cartProduct.setCart_id(cartProductDto.getCartId());
-            cartProduct.setProduct_id(cartProductDto.getProductId());
+            cartProduct.setProductId(cartProductDto.getProductId());
             cartProductRepository.save(cartProduct);
         } else {
             // Handle the case where cartId is null

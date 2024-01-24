@@ -11,7 +11,7 @@ const Result = ({ searchTerm, searchResults }) => {
           <Link key={product.id} to={`/products/${product.id}`} className="product-container">
             <div>
               <Link to={`/products/${product.id}`} className="product-text">
-                <img src={product.imageUrl} alt={product.name} className="product-image" />
+                <img src={"http://localhost:8080/" + product.imageUrl} alt={product.name} className="product-image" />
                 <h3>{product.name}</h3>
               </Link>
               <p>${product.price}</p>

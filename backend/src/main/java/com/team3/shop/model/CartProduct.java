@@ -13,7 +13,15 @@ public class CartProduct {
     @Column(name="cart_id")
     private long cart_id;
     @Column(name="product_id")
-    private long product_id;
+    private long productId;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public long getCart_id() {
         return cart_id;
@@ -23,11 +31,20 @@ public class CartProduct {
         this.cart_id = cart_id;
     }
 
-    public long getProduct_id() {
-        return product_id;
+    public long getProductId() {
+        return productId;
     }
 
-    public void setProduct_id(long product_id) {
-        this.product_id = product_id;
+    public void setProductId(long product_id) {
+        this.productId = product_id;
+    }
+
+    @Override
+    public String toString() {
+        return "CartProduct{" +
+                "id=" + id +
+                ", cart_id=" + cart_id +
+                ", productId=" + productId +
+                '}';
     }
 }

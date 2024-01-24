@@ -15,12 +15,12 @@ const BuyerInformation = () => {
   });
 
   const [disabledFields, setDisabledFields] = useState({
-    name: true,
-    email: true,
-    address: true,
-    city: true,
-    state: true,
-    zipcode: true,
+    name: false,
+    email: false,
+    address: false,
+    city: false,
+    state: false,
+    zipcode: false,
   });
 
   const [isLoggedIn, setIsLoggedIn] = useState(true);
