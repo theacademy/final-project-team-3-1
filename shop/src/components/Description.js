@@ -45,7 +45,7 @@ const Description = () => {
       imageUrl: product.imageUrl,
     };
   
-    fetch('http://localhost:8080/api/cart/items', {
+    fetch('http://localhost:8080/api/cart/product', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
