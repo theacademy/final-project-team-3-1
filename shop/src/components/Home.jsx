@@ -1,8 +1,10 @@
 import './Home.css';
 import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
-function Home() {
+function Home({ onSearch }) {
     const [products, setProducts] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchAllProducts();
@@ -44,10 +46,15 @@ function Home() {
                 </a>
             ))}
             <div className="view-all">
-                <a href={"/results"}>View All</a>
+                <p className="link" onClick={(e) => handleViewAllClick(e)}>View All</p>
             </div>
         </div>);
     }
+
+    const handleViewAllClick = (input) => {
+        onSearch("");
+        navigate('/results');
+    };
 
     return (
         <div className="home-container">
@@ -57,7 +64,7 @@ function Home() {
                 <div className="right">
                     <h1>Next Event</h1>
                     <h3>London 2024</h3>
-                    <a href="/results">View Work</a>
+                    <p className="link" onClick={(e) => handleViewAllClick(e)}>View Work</p>
                 </div>
             </div>
             <div className="section">
