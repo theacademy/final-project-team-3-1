@@ -32,13 +32,9 @@ public class CartController {
 
     @Autowired
     private UserRepository userRepository;
-@Autowired
-private CartRepository cartRepository;
-@Autowired
-private ProductRepository productRepository;
 
-@Autowired
-private CartProductRepository cartProductRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     private final CartServiceImp cartServiceImp;
     private final CartProductServiceImpl cartProductServiceImpl;
@@ -48,45 +44,33 @@ private CartProductRepository cartProductRepository;
         this.cartServiceImp = cartServiceImp;
         this.cartProductServiceImpl = cartProductServiceImpl;
     }
-    @GetMapping("/items")
-    public List<ProductDto> getAllItems() {
-        ArrayList<ProductDto> productDtos = new ArrayList<>();
-        for (CartProduct p: cartProductServiceImpl.getAllItems()){
-            Product product = productRepository.findById(p.getProductId()).get();
-            ProductDto productDto = new ProductDto(product);
-            productDtos.add(productDto);
+
+    @GetMapping("/cart-products")
+    public List<CartProductDto> getAllActiveCartProducts() {
+        Cart activeCart = cartServiceImp.getUserActiveCart(getAuthenticatedUser());
+        List<CartProduct> cartProducts = cartProductServiceImpl.getAllCartProducts(activeCart);
+        List<CartProductDto> cartProductDtos = new ArrayList<>();
+        for (CartProduct cartProduct : cartProducts) {
+            cartProductDtos.add(new CartProductDto(cartProduct));
         }
-        return productDtos;
+        return cartProductDtos;
     }
     
 //
 
-    @PostMapping("/items")
+    @PostMapping("/product")
     public ResponseEntity<Void> addItemToCart(@RequestBody ProductDto productItem) {
-        CartDto cartDto = new CartDto();
-        CartProductDto cartProductDto = new CartProductDto();
-        Long userId = getAuthenticatedUser().getId();
-        List<Cart> allCarts = cartRepository.findByUserId(userId);
-        for(Cart c : allCarts){
-            if(c.getStatus().equals("active")){
-                cartDto.setId(c.getId());
-                break;
-            }
-        }
-        cartProductDto.setCartId(cartDto.getId());
-        cartProductDto.setProductId(productItem.getId());
-        cartProductServiceImpl.addItemToCart(cartProductDto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        Cart activeCart = cartServiceImp.getUserActiveCart(getAuthenticatedUser());
+        Product product = productRepository.findById(productItem.getId()).orElseThrow();
+        cartProductServiceImpl.addItemToCart(activeCart, product);
+        return ResponseEntity.ok().build();
     }
 
 
-    @DeleteMapping("/items/{itemId}")
-    public void removeItem(@PathVariable Long itemId) {
-        // Find the cartProduct ids that have this itemId
-        List<CartProduct> cartProductsToDelete = cartProductRepository.findByProductId(itemId);
-        for (CartProduct cartProduct : cartProductsToDelete) {
-            cartProductServiceImpl.removeItem(cartProduct.getId());
-        }
+    @DeleteMapping("/cart-products/{cartProductId}")
+    public void remove(@PathVariable Long cartProductId) {
+        cartProductServiceImpl.removeCartProduct(cartProductId);
+        return;
     }
 
     public User getAuthenticatedUser() {

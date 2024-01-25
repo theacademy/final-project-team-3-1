@@ -4,6 +4,7 @@ import com.team3.shop.dto.CartDto;
 import com.team3.shop.model.Cart;
 import com.team3.shop.model.CartProduct;
 import com.team3.shop.model.Product;
+import com.team3.shop.model.User;
 import com.team3.shop.repository.CartProductRepository;
 import com.team3.shop.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,11 @@ public class CartServiceImp {
 
     public CartServiceImp(CartRepository cartRepository) {
         this.cartRepository = cartRepository;
+    }
+
+    public Cart getUserActiveCart(User user) {
+        Cart activeCart = cartRepository.findFirstByUserIdAndStatus(user.getId(), "active");
+        return activeCart;
     }
 
     public void checkoutCart(Long cartId) {

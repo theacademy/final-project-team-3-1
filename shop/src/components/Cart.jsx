@@ -10,7 +10,7 @@ const Cart = () => {
   function fetchAllProducts() {
       const token = localStorage.getItem('shop_access_token');
 
-      fetch('http://localhost:8080/api/cart/items', {
+      fetch('http://localhost:8080/api/cart/cart-products', {
           method: 'GET',
           headers: {
               'Authorization': `Bearer ${token}`
@@ -41,7 +41,7 @@ const Cart = () => {
 
 
   const calculateTotalPrice = () => {
-    return cartItems.reduce((total, item) => total + item.price, 0);
+    return cartItems.reduce((total, item) => total + item.product.price, 0);
   };
 
   const handleCheckout = () => {
@@ -58,7 +58,7 @@ const Cart = () => {
         if (isConfirmed) {
             const token = localStorage.getItem('shop_access_token');
 
-            fetch(`http://localhost:8080/api/cart/items/${productId}`, {
+            fetch(`http://localhost:8080/api/cart/cart-products/${productId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -85,12 +85,12 @@ const Cart = () => {
       <h2>Cart</h2>
       {cartItems.map((item) => (
         <div key={item.id} className="cart-item">
-          <img src={"http://localhost:8080/" + item.imageUrl} alt={item.name} className="cart-item-img" />
+          <img src={"http://localhost:8080/" + item.product.imageUrl} alt={item.product.name} className="cart-item-img" />
           <div className="cart-item-details">
-            <div className="cart-item-title">{item.name}</div>
+            <div className="cart-item-title">{item.product.name}</div>
             <div className="cart-item-actions">
               <button onClick={() => handleDeleteClick(item.id)}>Remove</button>
-              Price: ${item.price}
+              Price: ${item.product.price}
             </div>
           </div>
         </div>
