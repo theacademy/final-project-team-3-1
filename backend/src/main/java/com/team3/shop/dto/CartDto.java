@@ -1,12 +1,17 @@
 package com.team3.shop.dto;
 
-import org.springframework.beans.factory.config.CustomEditorConfigurer;
+import com.team3.shop.model.Cart;
 
 public class CartDto {
     private Long id;
     private Long userId;
     private String status;
 
+    CartDto(Cart cart) {
+        this.id = cart.getId();
+        this.userId = cart.getUser().getId();
+        this.status = cart.getStatus();
+    }
 
     public Long getId() {
         return id;

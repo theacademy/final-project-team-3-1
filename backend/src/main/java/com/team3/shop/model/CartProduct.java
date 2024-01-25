@@ -10,10 +10,22 @@ public class CartProduct {
     @Column(name = "id")
     private Long id;
 
-    @Column(name="cart_id")
-    private long cart_id;
-    @Column(name="product_id")
-    private long productId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    // Constructors, getters, and setters
+
+    public CartProduct() {}
+
+    public CartProduct(Cart cart, Product product) {
+        this.cart = cart;
+        this.product = product;
+    }
 
     public Long getId() {
         return id;
@@ -23,28 +35,28 @@ public class CartProduct {
         this.id = id;
     }
 
-    public long getCart_id() {
-        return cart_id;
+    public Cart getCart() {
+        return cart;
     }
 
-    public void setCart_id(long cart_id) {
-        this.cart_id = cart_id;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
-    public long getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(long product_id) {
-        this.productId = product_id;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     @Override
     public String toString() {
         return "CartProduct{" +
                 "id=" + id +
-                ", cart_id=" + cart_id +
-                ", productId=" + productId +
+                ", cart=" + cart +
+                ", product=" + product +
                 '}';
     }
 }

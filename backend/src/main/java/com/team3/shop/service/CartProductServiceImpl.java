@@ -1,7 +1,9 @@
 package com.team3.shop.service;
 
 import com.team3.shop.dto.CartProductDto;
+import com.team3.shop.model.Cart;
 import com.team3.shop.model.CartProduct;
+import com.team3.shop.model.Product;
 import com.team3.shop.repository.CartProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,23 +18,15 @@ public class CartProductServiceImpl {
     public CartProductServiceImpl(CartProductRepository cartProductRepository) {
         this.cartProductRepository = cartProductRepository;
     }
-    public void addItemToCart(CartProductDto cartProductDto) {
-        if (cartProductDto.getCartId() != null) {
-            CartProduct cartProduct = new CartProduct();
-            cartProduct.setCart_id(cartProductDto.getCartId());
-            cartProduct.setProductId(cartProductDto.getProductId());
-            cartProductRepository.save(cartProduct);
-        } else {
-            // Handle the case where cartId is null
-            // For now, we'll print a message to the console.
-            System.out.println("Attempted to add item to cart with null cartId.");
-            // You might want to throw an exception or handle it based on your application logic.
-        }
+
+    public void addItemToCart(Cart cart, Product product) {
+        CartProduct cartProduct = new CartProduct(cart, product);
+        cartProductRepository.save(cartProduct);
     }
 
 
-    public List<CartProduct> getAllItems() {
-        return cartProductRepository.findAll();
+    public List<CartProduct> getAllCartProducts(Cart cart) {
+        return cartProductRepository.findByCartId(cart.getId());
     }
 
 
@@ -41,10 +35,8 @@ public class CartProductServiceImpl {
     }
 
 
-    public void removeItem(Long itemId) {
-        CartProduct cartProductToDelete = cartProductRepository.findById(itemId).orElseThrow();
+    public void removeCartProduct(Long cartProductId) {
+        CartProduct cartProductToDelete = cartProductRepository.findById(cartProductId).orElseThrow();
         cartProductRepository.delete(cartProductToDelete);
     }
-
-
 }
