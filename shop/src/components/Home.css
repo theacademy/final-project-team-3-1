@@ -30,7 +30,8 @@
         }
     }
 
-    a {
+    a, p.link {
+        cursor: pointer;
         color: unset;
         text-decoration: unset;
 
@@ -82,11 +83,11 @@
             justify-content: center;
             width: 12rem;
 
-            a:hover {
+            p.link:hover {
                 background-color: whitesmoke;
             }
 
-            a {
+            p {
                 padding: 1rem;
             }
         }

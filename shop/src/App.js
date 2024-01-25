@@ -47,7 +47,7 @@ export default function App() {
         <NavBar onSearch={handleSearch} />
         <Routes>   
           <Route path="/results" element={<Result searchTerm={searchTerm} searchResults={searchResults} />} />
-          <Route exact path= "/" element={<Home />} />
+          <Route exact path= "/" element={<Home onSearch={handleSearch} />} />
         <Route exact path= "/cart" element={<Cart cart={cart} setCart={setCart}/>} />
         <Route exact path= "/confirmation" element={<Confirmation/>} />
         <Route exact path= "/Login" element={<Login/>} />
