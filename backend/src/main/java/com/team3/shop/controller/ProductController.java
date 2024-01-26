@@ -8,6 +8,7 @@ import com.team3.shop.repository.ProductRepository;
 import com.team3.shop.repository.UserRepository;
 import com.team3.shop.service.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +25,9 @@ import java.util.*;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
+    @Value("${app.uploads.location}")
+    private String uploadsLocation;
+
     @Autowired
     private ProductServiceImpl productService;
 
@@ -40,7 +44,7 @@ public class ProductController {
 
         String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
 
-        Path path = Paths.get("uploads/" + fileName);
+        Path path = Paths.get(uploadsLocation + fileName);
 
         Files.copy(image.getInputStream(), path);
 
@@ -85,7 +89,7 @@ public class ProductController {
             if (image != null && !image.isEmpty()) {
                 // Save the image and set its path to productDto
                 String fileName = UUID.randomUUID().toString() + "_" + image.getOriginalFilename();
-                Path path = Paths.get("uploads/" + fileName);
+                Path path = Paths.get(uploadsLocation + fileName);
                 Files.copy(image.getInputStream(), path);
 
                 productDto.setImageUrl(path.toString());
